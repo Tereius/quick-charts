@@ -11,6 +11,8 @@
 #include <QColor>
 #include <QSGNode>
 
+static const int MaxPointsInSegment = 400 - 8; // Has to be smaller/equal to "MAXIMUM_POINT_COUNT" in linechart.vert, linechart.frag
+
 class QRectF;
 class LineChartMaterial;
 class LineSegmentNode;

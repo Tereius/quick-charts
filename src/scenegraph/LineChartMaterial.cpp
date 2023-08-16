@@ -7,6 +7,8 @@
 
 #include "LineChartMaterial.h"
 
+constexpr int MaximumSegmentCount = 400;
+
 LineChartMaterial::LineChartMaterial()
 {
     setFlag(QSGMaterial::Blending);
@@ -34,7 +36,13 @@ int LineChartMaterial::compare(const QSGMaterial *other) const
     /* clang-format off */
     if (qFuzzyCompare(material->aspect, aspect)
         && qFuzzyCompare(material->lineWidth, lineWidth)
-        && qFuzzyCompare(material->smoothing, smoothing)) { /* clang-format on */
+        && qFuzzyCompare(material->smoothing, smoothing)
+        && material->fillColor == fillColor
+        && material->lineColor == lineColor
+        && material->min == min
+        && material->max == max
+        && material->values.size() == values.size()
+      ) { /* clang-format on */
         return 0;
     }
 
@@ -54,6 +62,7 @@ bool LineChartShader::updateUniformData(QSGMaterialShader::RenderState &state, Q
 {
     bool changed = false;
     UniformDataStream uniformData(state);
+    auto offset = uniformData.bytes;
 
     if (state.isMatrixDirty()) {
         uniformData << state.combinedMatrix();
@@ -71,9 +80,18 @@ bool LineChartShader::updateUniformData(QSGMaterialShader::RenderState &state, Q
 
     if (!oldMaterial || newMaterial->compare(oldMaterial) != 0) {
         const auto material = static_cast<LineChartMaterial *>(newMaterial);
+        Q_ASSERT(material->values.size() <= MaximumSegmentCount);
         uniformData << material->lineWidth;
         uniformData << material->aspect;
         uniformData << material->smoothing;
+        uniformData << QVector4D{material->lineColor.redF(), material->lineColor.greenF(), material->lineColor.blueF(), material->lineColor.alphaF()};
+        uniformData << QVector4D{material->fillColor.redF(), material->fillColor.greenF(), material->fillColor.blueF(), material->fillColor.alphaF()};
+        uniformData << QVector2D(material->min, material->max);
+        for (auto val : material->values) {
+          uniformData << QVector4D(val);
+        }
+        uniformData.skipComponents((MaximumSegmentCount - material->values.size()) * 4);
+        uniformData << float(material->values.size());
         changed = true;
     }
 

@@ -1,0 +1,16 @@
+{
+  "version": {
+    "major": 5,
+    "minor": 240,
+    "patch": 0,
+    "snapshot": false
+  },
+  "projectName": "quick-charts",
+  "projectDescription": "A QtQuick module providing high-performance charts.",
+  "vendor": "Björn Stresing",
+  "contact": "bjoern.stresing@gmx.de",
+  "domain": "com.github.tereius",
+  "copyrightYear": "2023",
+  "license": "MIT",
+  "repository": "https://github.com/Tereius/conan-quick-charts"
+}

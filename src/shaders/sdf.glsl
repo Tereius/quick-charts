@@ -65,7 +65,6 @@ lowp float sdf_triangle(in lowp vec2 point, in lowp vec2 p0, in lowp vec2 p1, in
     return -sqrt(d.x)*sign(d.y);
 }
 
-#ifndef API_ES2
 // Distance field for an arbitrary polygon.
 //
 // \param point A point on the distance field.
@@ -94,7 +93,6 @@ lowp float sdf_polygon(in lowp vec2 point, in lowp vec2[SDF_POLYGON_MAX_POINT_CO
     }
     return s * sqrt(d);
 }
-#endif
 
 // Distance field for a rectangle.
 //

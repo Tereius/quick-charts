@@ -27,6 +27,11 @@ public:
     float aspect = 1.0;
     float lineWidth = 0.0;
     float smoothing = 0.1;
+    float min;
+    float max;
+    QVector<QVector2D> values;
+    QColor lineColor;
+    QColor fillColor;
 };
 
 class LineChartShader : public SDFShader

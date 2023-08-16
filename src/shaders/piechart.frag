@@ -25,7 +25,7 @@ layout(std140, binding = 0) uniform buf {
     lowp float innerRadius; // offset 76
     lowp float outerRadius; // offset 80
     lowp vec4 backgroundColor; // offset 96
-    bool smoothEnds; // offset 112
+    int smoothEnds; // offset 112
     lowp float fromAngle; // offset 116
     lowp float toAngle; // offset 120
 
@@ -50,7 +50,7 @@ void main()
     lowp vec4 color = vec4(0.0);
 
     lowp float thickness = (ubuf.outerRadius - ubuf.innerRadius) / 2.0;
-    lowp float rounding = ubuf.smoothEnds ? thickness : 0.0;
+    lowp float rounding = ubuf.smoothEnds > 0 ? thickness : 0.0;
 
     // Background first, slightly smaller than the actual pie to avoid antialiasing artifacts.
     lowp float background_rounding = (ubuf.toAngle - ubuf.fromAngle) >= 2.0 * pi ? 0.001 : rounding + 0.001;

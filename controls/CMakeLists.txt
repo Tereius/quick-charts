@@ -1,27 +1,35 @@
 
-ecm_add_qml_module(QuickChartsControls URI "org.kde.quickcharts.controls")
+qt_add_qml_module(QuickChartsControls
+									URI "org.kde.quickcharts.controls"
+									VERSION "1.0"
+									OUTPUT_DIRECTORY "org/kde/quickcharts/controls"
+									#NO_PLUGIN_OPTIONAL
+									#NO_GENERATE_PLUGIN_SOURCE
+									#CLASS_NAME ChartsControlsPlugin
 
-target_sources(QuickChartsControls PRIVATE ChartsControlsPlugin.cpp)
+									#SOURCES
+									#ChartsControlsPlugin.h
+									#ChartsControlsPlugin.cpp
 
-ecm_target_qml_sources(QuickChartsControls SOURCES
-    Legend.qml
-    LegendDelegate.qml
-    LineChartControl.qml
-    PieChartControl.qml
-    Theme.qml
-    Logging.qml
-)
+									QML_FILES
+									Legend.qml
+									LegendDelegate.qml
+									LineChartControl.qml
+									PieChartControl.qml
+									Theme.qml
+									Logging.qml
+									styles/org.kde.desktop/Theme.qml
+									)
 
-ecm_target_qml_sources(QuickChartsControls PRIVATE PATH styles/org.kde.desktop SOURCES
-    styles/org.kde.desktop/Theme.qml
-)
+#target_sources(QuickChartsControlsplugin PRIVATE ChartsControlsPlugin.h ChartsControlsPlugin.cpp)
+
 
 target_link_libraries(QuickChartsControls
-    Qt6::Core
-    Qt6::Quick
-    Qt6::Qml
-    Qt6::Gui
-    Qt6::QuickControls2
+											PUBLIC Qt6::Core
+											PUBLIC Qt6::Quick
+											PUBLIC Qt6::Qml
+											PUBLIC Qt6::Gui
+											PUBLIC Qt6::QuickControls2
 )
 
-ecm_finalize_qml_module(QuickChartsControls DESTINATION ${KDE_INSTALL_QMLDIR})
+install_qml_module(QuickChartsControls)
